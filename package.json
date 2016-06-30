@@ -1,15 +1,24 @@
 {
   "name": "shopping-list-api",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbenjaminy/shopping-list-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jbenjaminy/shopping-list-api/issues"
+  },
+  "homepage": "https://github.com/jbenjaminy/shopping-list-api#readme",
+  "description": ""
 }
