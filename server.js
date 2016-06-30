@@ -1,10 +1,16 @@
+/*---------- DEPENDENCIES ----------*/
 var express = require('express');
+var app = express();
+app.use(express.static('public'));
 
 var bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
 
+/*---------- CONSTRUCTORS -----------*/
 var Storage = function() {
   this.items = [];
   this.id = 0;
+  this.users = [];
 };
 
 Storage.prototype.add = function(name) {
@@ -20,20 +26,41 @@ Storage.prototype.addByID = function(name, id) {
   return item;
 };
 
+Storage.prototype.addUser = function(body) {
+  this.users.push(body);
+  this.items.push(body.items);
+  return body;
+};
+
+
 var storage = new Storage();
 storage.add('Broad beans');
 storage.add('Tomatoes');
 storage.add('Peppers');
 
-var jsonParser = bodyParser.json();
-
-var app = express();
-app.use(express.static('public'));
-
+/*---------- GET REQUESTS ----------*/
 app.get('/items', function(request, response) {
   response.json(storage.items);
 });
 
+app.get('/items/:id', function(request, response) {
+  response.json(storage.items[request.params.id]);
+});
+
+app.get('/users', function(request, response) {
+  response.json(storage.users);
+});
+
+app.get('/users/:username/items', function(request, response) {
+  for (var i = 0; i < storage.users.length; i++) {
+    if (request.params.username === storage.users[i].username) {
+      return response.json(storage.users[i].items);
+    }
+  }
+  response.sendStatus(404);
+});
+
+/*---------- POST REQUESTS ----------*/
 app.post('/items', jsonParser, function(request, response) {
   if (!request.body) {
     return response.sendStatus(400);
@@ -43,6 +70,16 @@ app.post('/items', jsonParser, function(request, response) {
   response.status(201).json(item);
 });
 
+app.post('/users', jsonParser, function(request, response) {
+  if (!request.body) {
+    return response.sendStatus(400);
+  }
+
+  var body = storage.addUser(request.body);
+  response.status(201).json(body);
+});
+
+/*---------- DELETE REQUEST ----------*/
 app.delete('/items/:id', function(request, response) {
   var id = request.params.id;
 
@@ -55,6 +92,7 @@ app.delete('/items/:id', function(request, response) {
   response.status(200).json(item);
 });
 
+/*---------- PUT REQUEST ----------*/
 app.put('/items/:id', jsonParser, function(request, response) {
   var putID = parseInt(request.params.id);
   var putName = request.body.name;
