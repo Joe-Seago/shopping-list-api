@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 
 /*---------- CONSTRUCTORS -----------*/
+
 var Storage = function() {
   this.items = [];
   this.id = 0;
@@ -28,7 +29,7 @@ Storage.prototype.addByID = function(name, id) {
 
 Storage.prototype.addUser = function(body) {
   this.users.push(body);
-  this.items.push(body.items);
+  this.items = this.items.concat(body.items);
   return body;
 };
 

@@ -162,6 +162,7 @@ ShoppingList.prototype.getItems = function() {
     ajax.done(this.onGetItemsDone.bind(this));
 };
 
+
 ShoppingList.prototype.addItem = function(name) {
     var item = {'name': name};
     var ajax = $.ajax('/items', {
