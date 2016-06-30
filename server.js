@@ -114,7 +114,7 @@ app.delete('/users/:username', function(request, response) {
 app.put('/items/:id', jsonParser, function(request, response) {
     var putID = parseInt(request.params.id);
     var putName = request.body.name;
-
+  if (request.body.name != "") {
     for (var i = 0; i < storage.items.length; i++) {
         if (storage.items[i].id === putID) {
             storage.items[i].name = request.body.name;
@@ -122,7 +122,10 @@ app.put('/items/:id', jsonParser, function(request, response) {
         }
     }
     var item = storage.addByID(putName, putID);
-    response.status(201).json(item);
+    return response.status(201).json(item);
+  }else {
+    return response.sendStatus(400);
+  }
 });
 
 app.listen(process.env.PORT || 8080);
