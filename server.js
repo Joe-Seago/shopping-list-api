@@ -69,7 +69,9 @@ app.get('/users/:username/items', function(request, response) {
 
 /*---------- POST REQUESTS ----------*/
 app.post('/items', jsonParser, function(request, response) {
-    if (!request.body) {
+    // screens for requests with empty body and requests with empty strings set for 'name'.
+    if (request.body !== [] || request.body.name == "") {
+        console.log("here");
         return response.sendStatus(400);
     }
 
@@ -78,7 +80,7 @@ app.post('/items', jsonParser, function(request, response) {
 });
 
 app.post('/users', jsonParser, function(request, response) {
-    if (!request.body) {
+    if (request.body !== [] || request.body.name == "") {
         return response.sendStatus(400);
     }
 
@@ -114,6 +116,8 @@ app.delete('/users/:username', function(request, response) {
 app.put('/items/:id', jsonParser, function(request, response) {
     var putID = parseInt(request.params.id);
     var putName = request.body.name;
+    
+    // screens for requests with empty strings set for name
   if (request.body.name != "") {
     for (var i = 0; i < storage.items.length; i++) {
         if (storage.items[i].id === putID) {
