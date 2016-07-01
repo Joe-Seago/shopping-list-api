@@ -54,6 +54,55 @@ describe('Shopping List', function() {
                 done();
             });
     });
-    it('should edit an item on put');
+    it('should edit an item on put', function(done) {
+        chai.request(app)
+            .put('/items/1')
+            .send({'name': 'Kale'})
+            .end(function(err, response) {
+                should.equal(err, null);
+                response.should.have.status(200);
+                response.should.be.json;
+                response.body.should.be.a('object');
+                response.body.should.have.property('name');
+                response.body.should.have.property('id');
+                response.body.name.should.be.a('string');
+                response.body.id.should.be.a('number');
+                response.body.name.should.equal('Kale');
+                storage.items.should.be.a('array');
+                storage.items.should.have.length(4);
+                storage.items[1].should.be.a('object');
+                storage.items[1].should.have.property('id');
+                storage.items[1].should.have.property('name');
+                storage.items[1].id.should.be.a('number');
+                storage.items[1].name.should.be.a('string');
+                storage.items[1].name.should.equal('Kale');
+                done();
+            });
+    });
+    // it('should edit an item on put', function(done) {
+    //     chai.request(app)
+    //         .put('/items/1')
+    //         .send({'name': 'Kale',})
+    //         .end(function(err, response) {
+    //             should.equal(err, null);
+    //             response.should.have.status(200);
+    //             response.should.be.json;
+    //             response.body.should.be.a('object');
+    //             response.body.should.have.property('name');
+    //             response.body.should.have.property('id');
+    //             response.body.name.should.be.a('string');
+    //             response.body.id.should.be.a('number');
+    //             response.body.name.should.equal('Kale');
+    //             storage.items.should.be.a('array');
+    //             storage.items.should.have.length(4);
+    //             storage.items[1].should.be.a('object');
+    //             storage.items[1].should.have.property('id');
+    //             storage.items[1].should.have.property('name');
+    //             storage.items[1].id.should.be.a('number');
+    //             storage.items[1].name.should.be.a('string');
+    //             storage.items[1].name.should.equal('Kale');
+    //             done();
+    //         });
+    // });
     it('should delete an item on delete');
 });
