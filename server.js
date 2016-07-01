@@ -113,13 +113,10 @@ app.delete('/users/:username', function(request, response) {
     // loop through the users array and if the requested username matches an existing username, deletes the object for that user.
     for (var i = 0; i < storage.users.length; i++) {
         if (request.params.username === storage.users[i].username) {
-            console.log(request.params.username + " === " + storage.users[i].username);
             var user = storage.users[i];
-            console.log('user: ' + user);
             for (var j = 0; j < user.items.length; j++) {
                 for(var k = 0; k < storage.items.length; k++) {
                     if(user.items[j].id === storage.items[k].id) {
-                        console.log(user.items[j].id + ' === ' + storage.items[k].id)
                         storage.items.splice(k, 1);
                     }
                 }
@@ -137,11 +134,11 @@ app.put('/items/:id', jsonParser, function(request, response) {
     var putName = request.body.name;
 
 // screens for requests with empty strings set for name
-  if (request.body.name !== "") {
+  if (putName !== "") {
     // loops through the items array and checks to see if there is an item for the requested id; if so, updates item name.
     for (var i = 0; i < storage.items.length; i++) {
         if (storage.items[i].id === putID) {
-            storage.items[i].name = request.body.name;
+            storage.items[i].name = putName;
             return response.status(200).json(storage.items[i]);
         }
     }
@@ -150,6 +147,21 @@ app.put('/items/:id', jsonParser, function(request, response) {
   }else {
     return response.sendStatus(400);
   }
+});
+
+app.put('/users/:username', jsonParser, function(request, response) {
+    var putUserName = request.params.username;
+    var bodyUserName = request.body.username;
+
+    if(putUserName !== '') {
+        for(var i = 0; i < storage.users.length; i++) {
+            if(storage.users[i].username === putUserName) {
+                storage.users[i].username = bodyUserName;
+                return response.status(200).json(storage.users[i]);
+            }
+        }
+    }
+    return response.sendStatus(404);
 });
 
 app.listen(process.env.PORT || 8080);
