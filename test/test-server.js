@@ -29,6 +29,12 @@ describe('Shopping List', function() {
             });
     });
 
+    it('Should list item with given ID on GET');
+
+    it('Should list users on GET');
+
+    it('should list user\'s items with username on GET');
+
     it('should add an item on post', function(done) {
     	chai.request(app)
             .post('/items')
@@ -54,6 +60,9 @@ describe('Shopping List', function() {
                 done();
             });
     });
+
+    it('Should add a user including items on post');
+
     it('should edit an item on put', function(done) {
         chai.request(app)
             .put('/items/1')
@@ -79,6 +88,7 @@ describe('Shopping List', function() {
                 done();
             });
     });
+
     it('should add an item on put when ID is empty', function(done) {
         chai.request(app)
             .put('/items/10')
@@ -105,7 +115,8 @@ describe('Shopping List', function() {
                 done();
             });
     });
-    it('should delete an item on delete', function(done) {
+
+    it('Should delete an item on delete', function(done) {
         chai.request(app)
             .delete('/items/1')
             .end(function(err, response) {
@@ -124,4 +135,6 @@ describe('Shopping List', function() {
                 done();
             });
     });
+
+    it('Should delete a user on delete');
 });
