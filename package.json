@@ -20,5 +20,9 @@
     "url": "https://github.com/jbenjaminy/shopping-list-api/issues"
   },
   "homepage": "https://github.com/jbenjaminy/shopping-list-api#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0"
+  }
 }
