@@ -59,6 +59,7 @@ app.get('/users', function(request, response) {
 });
 
 app.get('/users/:username/items', function(request, response) {
+    // loop through the users array and if the requested username matches an existing username, returns the user's items array.
     for (var i = 0; i < storage.users.length; i++) {
         if (request.params.username === storage.users[i].username) {
             return response.json(storage.users[i].items);
@@ -69,9 +70,8 @@ app.get('/users/:username/items', function(request, response) {
 
 /*---------- POST REQUESTS ----------*/
 app.post('/items', jsonParser, function(request, response) {
-    // screens for requests with empty body and requests with empty strings set for 'name'.
-    if (request.body !== [] || request.body.name === "") {
-        console.log("here");
+    // screens for requests with empty arrays for their body and requests with empty strings set for 'name'.
+    if (request.body == [] || request.body.name === "") {
         return response.sendStatus(400);
     }
 
@@ -80,7 +80,8 @@ app.post('/items', jsonParser, function(request, response) {
 });
 
 app.post('/users', jsonParser, function(request, response) {
-    if (request.body !== [] || request.body.name === "") {
+    // screens for requests with empty arrays for their body and requests with empty strings set for 'name'.
+    if (request.body == [] || request.body.name === "") {
         return response.sendStatus(400);
     }
 
@@ -92,6 +93,7 @@ app.post('/users', jsonParser, function(request, response) {
 app.delete('/items/:id', function(request, response) {
     var id = request.params.id;
 
+    // Ensures that requested id exists
     if (!storage.items[id]) {
         return response.sendStatus(404);
     }
@@ -102,6 +104,7 @@ app.delete('/items/:id', function(request, response) {
 });
 
 app.delete('/users/:username', function(request, response) {
+    // loop through the users array and if the requested username matches an existing username, deletes the object for that user.
     for (var i = 0; i < storage.users.length; i++) {
         if (request.params.username === storage.users[i].username) {
             var user = storage.users[i];
@@ -117,8 +120,9 @@ app.put('/items/:id', jsonParser, function(request, response) {
     var putID = parseInt(request.params.id);
     var putName = request.body.name;
     
-    // screens for requests with empty strings set for name
+// screens for requests with empty strings set for name
   if (request.body.name !== "") {
+    // loops through the items array and checks to see if there is an item for the requested id; if so, updates item name.
     for (var i = 0; i < storage.items.length; i++) {
         if (storage.items[i].id === putID) {
             storage.items[i].name = request.body.name;
@@ -133,3 +137,6 @@ app.put('/items/:id', jsonParser, function(request, response) {
 });
 
 app.listen(process.env.PORT || 8080);
+
+exports.app = app;
+exports.storage = storage;
