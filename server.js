@@ -113,10 +113,13 @@ app.delete('/users/:username', function(request, response) {
     // loop through the users array and if the requested username matches an existing username, deletes the object for that user.
     for (var i = 0; i < storage.users.length; i++) {
         if (request.params.username === storage.users[i].username) {
+            console.log(request.params.username + " === " + storage.users[i].username);
             var user = storage.users[i];
+            console.log('user: ' + user);
             for (var j = 0; j < user.items.length; j++) {
                 for(var k = 0; k < storage.items.length; k++) {
                     if(user.items[j].id === storage.items[k].id) {
+                        console.log(user.items[j].id + ' === ' + storage.items[k].id)
                         storage.items.splice(k, 1);
                     }
                 }

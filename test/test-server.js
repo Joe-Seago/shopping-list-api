@@ -238,12 +238,8 @@ describe('Shopping List', function() {
                 storage.users.should.have.length(1);
                 storage.users[0].username.should.equal('Chris');
                 done();
-            })
-
-
-
+            });
     });
-    console.log(storage.items);
-    console.log(storage.users);
+
 
 });
