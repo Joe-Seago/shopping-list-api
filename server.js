@@ -44,25 +44,32 @@ var storage = new Storage();
 storage.add('Broad beans');
 storage.add('Tomatoes');
 storage.add('Peppers');
+storage.addUser({"username": "Joe", "items": [{"name": "Plantain", "id": 7 }]});
 
 /*---------- GET REQUESTS ----------*/
 app.get('/items', function(request, response) {
-    response.json(storage.items);
+    response.status(200).json(storage.items);
 });
 
 app.get('/items/:id', function(request, response) {
-    response.json(storage.items[request.params.id]);
+    var item = storage.items[request.params.id];
+    console.log(item);
+
+    if (item) {
+        return response.status(200).json(item);
+    }
+    response.sendStatus(404); 
 });
 
 app.get('/users', function(request, response) {
-    response.json(storage.users);
+    response.status(200).json(storage.users);
 });
 
 app.get('/users/:username/items', function(request, response) {
     // loop through the users array and if the requested username matches an existing username, returns the user's items array.
     for (var i = 0; i < storage.users.length; i++) {
         if (request.params.username === storage.users[i].username) {
-            return response.json(storage.users[i].items);
+            return response.status(200).json(storage.users[i].items);
         }
     }
     response.sendStatus(404);
