@@ -53,12 +53,11 @@ app.get('/items', function(request, response) {
 
 app.get('/items/:id', function(request, response) {
     var item = storage.items[request.params.id];
-    console.log(item);
 
     if (item) {
         return response.status(200).json(item);
     }
-    response.sendStatus(404); 
+    response.sendStatus(404);
 });
 
 app.get('/users', function(request, response) {
@@ -126,7 +125,7 @@ app.delete('/users/:username', function(request, response) {
 app.put('/items/:id', jsonParser, function(request, response) {
     var putID = parseInt(request.params.id);
     var putName = request.body.name;
-    
+
 // screens for requests with empty strings set for name
   if (request.body.name !== "") {
     // loops through the items array and checks to see if there is an item for the requested id; if so, updates item name.
