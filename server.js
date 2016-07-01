@@ -114,6 +114,13 @@ app.delete('/users/:username', function(request, response) {
     for (var i = 0; i < storage.users.length; i++) {
         if (request.params.username === storage.users[i].username) {
             var user = storage.users[i];
+            for (var j = 0; j < user.items.length; j++) {
+                for(var k = 0; k < storage.items.length; k++) {
+                    if(user.items[j].id === storage.items[k].id) {
+                        storage.items.splice(k, 1);
+                    }
+                }
+            }
             storage.users.splice(i, 1);
             return response.status(200).json(user);
         }

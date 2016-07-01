@@ -199,6 +199,9 @@ describe('Shopping List', function() {
             });
     });
 
+    it('should add a user on PUT')
+
+
     it('should delete an item on DELETE', function(done) {
         chai.request(app)
             .delete('/items/1')
@@ -212,12 +215,35 @@ describe('Shopping List', function() {
                 response.body.name.should.be.a('string');
                 response.body.id.should.be.a('number');
                 response.body.name.should.equal('Kale');
-                storage.items.should.be.a('array');
                 storage.items.should.have.length(6);
                 storage.items[1].id.should.equal(2);
                 done();
             });
     });
 
-    it('should delete a user on DELETE');
+    it('should delete a user on DELETE', function(done) {
+        chai.request(app)
+            .delete('/users/Joe')
+            .end(function(err, response) {
+                should.equal(err, null);
+                response.should.have.status(200);
+                response.should.be.json;
+                response.body.should.be.a('object');
+                response.body.should.have.property('username');
+                response.body.should.have.property('items');
+                response.body.username.should.be.a('string');
+                response.body.items.should.be.a('array');
+                response.body.username.should.equal('Joe');
+                storage.items.should.have.length(5);
+                storage.users.should.have.length(1);
+                storage.users[0].username.should.equal('Chris');
+                done();
+            })
+
+
+
+    });
+    console.log(storage.items);
+    console.log(storage.users);
+
 });
