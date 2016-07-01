@@ -105,5 +105,23 @@ describe('Shopping List', function() {
                 done();
             });
     });
-    it('should delete an item on delete');
+    it('should delete an item on delete', function(done) {
+        chai.request(app)
+            .delete('/items/1')
+            .end(function(err, response) {
+                should.equal(err, null);
+                response.should.have.status(200);
+                response.should.be.json;
+                response.body.should.be.a('object');
+                response.body.should.have.property('name');
+                response.body.should.have.property('id');
+                response.body.name.should.be.a('string');
+                response.body.id.should.be.a('number');
+                response.body.name.should.equal('Kale');
+                storage.items.should.be.a('array');
+                storage.items.should.have.length(4);
+                storage.items[1].id.should.equal(2);
+                done();
+            });
+    });
 });
